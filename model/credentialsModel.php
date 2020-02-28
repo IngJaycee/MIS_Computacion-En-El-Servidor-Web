@@ -1,8 +1,10 @@
 <?php
-class CredentialsModel{
+require_once('dataBaseModel.php');
+class CredentialsModel {
+    public $dataBaseModel;
     public function __construct()
     {
-        # code...
+        $this->dataBaseModel = new DatabaseModel();
     }
 
     private function readValidCredentials()
@@ -62,13 +64,17 @@ class CredentialsModel{
 
     public function isValidCredential($user = "", $pass = "")
     {
-        $$user = strtolower($$user);
-        $validCredentials = $this->readValidCredentials();
-        if (empty($user) || empty($pass) || !array_key_exists($user, $validCredentials)){
+        $user = strtolower($user);
+        $pass = sha1($pass);
+
+        // $validCredentials = $this->readValidCredentifjuaals();
+        if (empty($user) || empty($pass)){
             return FALSE;
         }
+        
+        $result = $this->dataBaseModel->getUserFromDB($user, $pass);
 
-        if ($validCredentials[$user] == sha1($pass)){
+        if (sizeof($result)>0){
             return TRUE;
         }else{
             return FALSE;
@@ -78,19 +84,16 @@ class CredentialsModel{
     private function saveNewUser($newUser = "", $newPass = "")
     {
         $newUser = strtolower($newUser);
-        $validCredentials = $this->readValidCredentials();
-        if (empty($newUser) || empty($newPass) || array_key_exists($newUser, $validCredentials)){
+        // $validCredentials = $this->readValidCredentials();
+        if (empty($newUser) || empty($newPass) || !$this->dataBaseModel->isUnUsedUser($newUser)){
             return "REGISTER_USED_ERROR";
         }
-        $validCredentials[$newUser] = sha1($newPass);
-        $result="";
-        foreach ($validCredentials as $user => $pass) {
-            $separador = ($result == "") ? "" : "||" ;
-            $result .= $separador . $user . "|" . $pass;
+
+        if ($this->dataBaseModel->registerNewUser($newUser, sha1($newPass))){
+            return "REGISTER_OK";
+        } else{
+            return "REGISTER_ERROR";
         }
-        $filePath = "file/secret.txt";
-        file_put_contents($filePath, $result);
-        return "REGISTER_OK";
     }
 }
 ?>

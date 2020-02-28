@@ -1,10 +1,13 @@
 <?php
 require_once('model/credentialsModel.php');
+require_once('model/dataBaseModel.php');
 class AuthController{
     public $credentialsModel;
+    public $dataBaseModel;
     public function __construct()
     {
         $this->credentialsModel = new CredentialsModel();
+        $this->dataBaseModel = new DatabaseModel();
     }
     public function init()
     {
