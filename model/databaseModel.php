@@ -19,8 +19,8 @@ class DatabaseModel extends SQLModel{
         $table = $this::TABLE_USER;
         $columns = "`id`, `name`, `password`";
         $values = "NULL, '$nombre', '$pass'";
-
-        $result = $this->inserIntoTable($this::TABLE_USER, $columns, $values);
+        
+        return $result = $this->inserIntoTable($this::TABLE_USER, $columns, $values);
     }
 
     public function getUserFromDB($nombre, $pass){

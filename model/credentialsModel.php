@@ -39,6 +39,7 @@ class CredentialsModel {
             }
         }
         else if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['register']){
+            // die("valio");
             return $this->getTypeOfRegister();
         }
         else{
@@ -67,7 +68,6 @@ class CredentialsModel {
         $user = strtolower($user);
         $pass = sha1($pass);
 
-        // $validCredentials = $this->readValidCredentifjuaals();
         if (empty($user) || empty($pass)){
             return FALSE;
         }
@@ -84,7 +84,6 @@ class CredentialsModel {
     private function saveNewUser($newUser = "", $newPass = "")
     {
         $newUser = strtolower($newUser);
-        // $validCredentials = $this->readValidCredentials();
         if (empty($newUser) || empty($newPass) || !$this->dataBaseModel->isUnUsedUser($newUser)){
             return "REGISTER_USED_ERROR";
         }
