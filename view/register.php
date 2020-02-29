@@ -10,7 +10,7 @@
 </head>
 
 <header>
-  <h1>Computacion en el Servidor WEB</h1>
+  <h1>Computación en el Servidor WEB</h1>
   <h2>Regristro de nuevos usuarios</h2>
 </header>
 

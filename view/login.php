@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computacion en el Servidor WEB</title>
+    <title>Acceso</title>
     <link rel="stylesheet" href="file/css/estilos.css">
-
 </head>
+
 <header>
-  <h1>Computacion en el Servidor WEB</h1>
+  <h1>Computación en el Servidor WEB</h1>
   <h2>Acceso a sistema</h2>
 </header>
+
 <body>
     <div class="login-page">
         <div class="form">
