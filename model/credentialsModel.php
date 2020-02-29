@@ -39,7 +39,6 @@ class CredentialsModel {
             }
         }
         else if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['register']){
-            // die("valio");
             return $this->getTypeOfRegister();
         }
         else{
@@ -75,6 +74,7 @@ class CredentialsModel {
         $result = $this->dataBaseModel->getUserFromDB($user, $pass);
 
         if (sizeof($result)>0){
+            $_SESSION['user'] = $result[0];
             return TRUE;
         }else{
             return FALSE;
@@ -93,6 +93,12 @@ class CredentialsModel {
         } else{
             return "REGISTER_ERROR";
         }
+    }
+
+    public function removeUser()
+    {
+        $user = $_SESSION["user"];
+        $this->dataBaseModel->deleteUser($user["id"], $user["password"]);
     }
 }
 ?>

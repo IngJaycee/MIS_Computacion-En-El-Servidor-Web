@@ -30,6 +30,13 @@ class DatabaseModel extends SQLModel{
         return $result;
     }
 
+    public function deleteUser($id, $encryptedPass){
+        $table = $this::TABLE_USER;
+        $where = "id = $id AND password = '$encryptedPass'";
+
+        $result = $this->deleteFromTable($table,  $where);
+        // var_export($result);
+    }
 }
 
     // public function getUsers(){

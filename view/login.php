@@ -11,7 +11,7 @@
 <header>
   <h1>Computación en el Servidor WEB</h1>
   <h2>Acceso a sistema</h2>
-</header>
+</header>   
 
 <body>
     <div class="login-page">
