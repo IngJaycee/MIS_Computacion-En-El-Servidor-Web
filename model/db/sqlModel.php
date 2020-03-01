@@ -33,6 +33,7 @@ class SQLModel{
         if ($table == null || $setInstructions == null || $where == null) die("error in params");
 
         $sql = "UPDATE `".$table."` ".$setInstructions." WHERE ".$where;
+
         return mysqli_query($this->conexion, $sql);
     }
 

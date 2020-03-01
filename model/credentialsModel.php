@@ -100,5 +100,17 @@ class CredentialsModel {
         $user = $_SESSION["user"];
         $this->dataBaseModel->deleteUser($user["id"], $user["password"]);
     }
+
+    public function updateUser(){
+        $user = $_SESSION["user"];
+        $usuario = $_REQUEST['mUser'];
+        $password = $_REQUEST['mPass'];
+        $mFullName = $_REQUEST['mFullName'];
+
+        if ($this->dataBaseModel->updateUser($user["id"], $usuario, $password, $mFullName)){
+            $_SESSION['user']["name"] = $usuario;
+            $_SESSION['user']["fullname"] = $mFullName;
+        }
+    }
 }
 ?>

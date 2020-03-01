@@ -10,19 +10,18 @@ class AuthController
     public function init()
     {
         if(!isset($_SESSION)) session_start();
-        if(isset($_SESSION)) var_dump($_SESSION);
-        if(isset($_REQUEST)) var_dump ($_REQUEST);
         
         if (!isset($_SESSION['user'])){
             $this->login();
         }else{
-            $this->home($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteUser']) && $_POST['deleteUser']);
+            $isCloseSession = $_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST['closeSession']) || isset($_POST['deleteUser']));
+
+            $this->home($isCloseSession);
         }
     }
     
     private function login(){
         $result = $this->credentialsModel->getLogin();
-        echo $result ;
 
         if ($result == "LOGIN_OK") {
             $this->home();
@@ -33,12 +32,15 @@ class AuthController
         }
     }
 
-    private function home($isDelete = false){
-        if (!$isDelete){
-            $this->getHomeView();
-        }else{
-            $this->credentialsModel->removeUser();
+    private function home($isCloseSession = false){
+        if ($isCloseSession){
+            if (isset($_POST['deleteUser'])){
+                $this->credentialsModel->removeUser();
+            }
             $this->getLoginView();
+        }else{
+            $this->isUpdateUser();
+            $this->getHomeView();
         }
     }
 
@@ -52,9 +54,19 @@ class AuthController
         include 'view/register.php';
     }
 
-    private function getHomeView($result = ""){
+    private function getHomeView($result = "", $isEditMode = false){
         $user = $_SESSION["user"];
+        $isEditMode = $_SERVER["REQUEST_METHOD"] == "POST" && isset($_REQUEST['updateUser']);
         include 'view/home.php';
+    }
+
+    private function isUpdateUser(){
+        $isEditRequest = $_SERVER["REQUEST_METHOD"] == "POST" && isset($_REQUEST['reqUpdate']);
+        if ($isEditRequest){
+            unset($_REQUEST['updateUser']);
+            unset($_REQUEST['reqUpdate']);
+            $this->credentialsModel->updateUser();
+        }
     }
 
     private function resetVariables() {

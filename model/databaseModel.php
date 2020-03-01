@@ -35,49 +35,17 @@ class DatabaseModel extends SQLModel{
         $where = "id = $id AND password = '$encryptedPass'";
 
         $result = $this->deleteFromTable($table,  $where);
-        // var_export($result);
+    }
+
+    public function updateUser($id = "", $user = "", $pass = "", $fullname = ""){
+        if ($user == "" || $id == "") die("El nombre de usuario es requerido para la actualizacion: $id, $user, $pass, $fullname");
+        $table = $this::TABLE_USER;
+
+        $password = ($pass) ? " password = '". sha1($pass) ."', " : "";
+        $setInstructions = "SET name = '$user', $password fullname = '$fullname'";
+        $where = "id = $id";
+
+        return $result = $this->updateTable($table, $setInstructions, $where);
     }
 }
-
-    // public function getUsers(){
-    //     $table = "usuarios";
-    //     $where = "1";
-
-    //     $result = $this->selectAllFromTable($table, $where);
-    //     var_export($result);
-    // }
-
-    // public function insertUser(){
-    //     $table = "usuarios";
-    //     $columns = "`id`, `name`, `password`";
-    //     $values = "NULL, 'claudia', '11111'";
-
-    //     $result = $this->inserIntoTable($table, $columns, $values);
-    //     var_export($result);
-    // }
-
-    // public function updateUser(){
-    //     $table = "usuarios";
-    //     $setInstructions = "SET name = 'JC'";
-    //     $where = "id = 1";
-
-    //     $result = $this->updateTable($table, $setInstructions, $where);
-    //     var_export($result);
-    // }
-
-    // public function deleteUser(){
-    //     $table = "usuarios";
-    //     $where = "id = 7";
-
-    //     $result = $this->deleteFromTable($table,  $where);
-    //     var_export($result);
-    // }
-
-    // public function generic(){
-    //     $sql = "SELECT * FROM `usuarios` WHERE 1";
-
-    //     $result = $this->sqlGenericQuery($sql);
-    //     var_export($result);
-    // }
-
 ?>
